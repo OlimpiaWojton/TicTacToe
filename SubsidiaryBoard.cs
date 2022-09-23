@@ -9,12 +9,14 @@ namespace TicTacToe
     class SubsidiaryBoard
     {
         public string[,] GameBoard { get; private set; }
+        public bool UserMove { get; private set; } = false;
+        public bool GameOver { get; private set; } = false;
 
         public SubsidiaryBoard (int dimension)
         {
             GameBoard = new string[dimension, dimension];
             FillSubsidiaryBoard();
-            DisplayBoard();
+            //DisplayBoard();
         }
 
         private void FillSubsidiaryBoard() //metoda wstawia numerację pól np. A1
@@ -29,7 +31,7 @@ namespace TicTacToe
             }
         }
 
-        private void DisplayBoard()
+        public void DisplayBoard()
         {
             Console.Write("   ");
             for (int x = 1; x <= GameBoard.GetLength(0); x++)
@@ -60,6 +62,57 @@ namespace TicTacToe
                     Console.WriteLine();
                 }
             }
+            Console.WriteLine();
         }
+        public void CheckUserMove(string userMove, Board board, Player p)
+        {
+            bool contains = false;
+            for (int i = 0; i < GameBoard.GetLength(0); i++)
+            {
+                for (int j = 0; j < GameBoard.GetLength(1); j++)
+                {
+                    if (userMove.ToUpper() == GameBoard[i, j])
+                    {
+                        GameBoard[i, j] = " # ";
+                        board.GameBoard[i, j] = p.Sign;
+                        contains = true;
+                        break;
+                    }
+                }
+                if (contains == true)
+                {
+                    break;
+                }
+            }
+            if (contains == false)
+            {
+                //Console.WriteLine("Invalid input or field is occupied, try again");
+                UserMove = true;
+            }
+            else
+            {
+                UserMove = false;
+            }
+        }
+
+        public void CheckGameOver()
+        {
+            int countMoves = 0;
+            for (int i = 0; i < GameBoard.GetLength(0); i++)
+            {
+                for (int j = 0; j < GameBoard.GetLength(1); j++)
+                {
+                    if (GameBoard[i, j] == " # ")
+                    {
+                        countMoves++;
+                    }
+                }
+            }
+            if (countMoves == GameBoard.GetLength(0) * GameBoard.GetLength(1))
+            {
+                GameOver = true;
+            }
+        }
+
     }
 }

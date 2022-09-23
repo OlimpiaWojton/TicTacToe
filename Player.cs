@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace TicTacToe
 {
-    class Players
+    class Player
     {
+        public string Name { get; set; }
+        public string Sign { get; set; }
+
        
     }
 }

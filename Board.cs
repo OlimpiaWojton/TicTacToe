@@ -9,7 +9,8 @@ namespace TicTacToe
     class Board
     {
         public string[,] GameBoard { get; private set; }
-       
+        public bool Won { get; private set; } = false;
+
         public Board (int dimension)
         {
             GameBoard = new string[dimension, dimension];
@@ -28,7 +29,7 @@ namespace TicTacToe
             }
         }
 
-        private void DisplayBoard()
+        public void DisplayBoard()
         {
             Console.Write("   ");
             for (int x = 1; x <= GameBoard.GetLength(0); x++)
@@ -59,17 +60,92 @@ namespace TicTacToe
                     Console.WriteLine();
                 }
             }
+            Console.WriteLine();
         }
-        private void FillSubsidiaryBoard() //metoda wstawia numerację pól np. A1
+
+        public void CheckHorizontal(Player p)
         {
             for (int i = 0; i < GameBoard.GetLength(0); i++)
             {
-                Rows letter = (Rows)i;
                 for (int j = 0; j < GameBoard.GetLength(1); j++)
                 {
-                    GameBoard[i, j] = $" {letter}{j +1}";
+                    if (GameBoard[i,j] != p.Sign)
+                    {
+                        break;
+                    }
+                    if (j == GameBoard.GetLength(1) - 1)
+                    {
+                        Won = true;
+                    }
+                }
+
+            }
+        }
+
+        public void CheckVertical(Player p)
+        {
+            for (int i = 0; i < GameBoard.GetLength(0); i++)
+            {
+                for (int j = 0; j < GameBoard.GetLength(1); j++)
+                {
+                    if (GameBoard[j, i] != p.Sign)      //zamiana zmiennych i na j = pionowe przechodzenie po Array
+                    {
+                        break;
+                    }
+                    if (j == GameBoard.GetLength(1) - 1)
+                    {
+                        Won = true;
+                    }
+                }
+
+            }
+        }
+
+        public void CheckDiagonalAsc(Player p)
+        {
+            for (int i = 0; i < GameBoard.GetLength(0); i++)
+            {
+                if (GameBoard[i, i] != p.Sign)
+                {
+                    break;
+                }
+                if (i == GameBoard.GetLength(1) - 1)
+                {
+                    Won = true;
                 }
             }
         }
+
+        public void CheckDiagonalDesc(Player p)
+        {
+            int j = GameBoard.GetLength(0) -1;
+            for (int i = 0; i < GameBoard.GetLength(0); i++)
+            {
+                if (GameBoard[i, j] != p.Sign)
+                {
+                    break;
+                }
+                if (i == GameBoard.GetLength(1) - 1)
+                {
+                    Won = true;
+                }
+                j--;
+            }
+        }
+
+
+
+        public void CheckHorizontal2(Player p)
+        {
+            for (int i = 0; i< GameBoard.GetLength(0);i++)
+            {
+                if (GameBoard[i, 0] == p.Sign && GameBoard[i,0] == GameBoard[i,1] && GameBoard[i,1] == GameBoard[i,2])
+                {
+                    Won = true;
+                }
+            }
+        }
+
+      
     }
 }
