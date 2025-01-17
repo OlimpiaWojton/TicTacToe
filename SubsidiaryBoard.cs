@@ -8,25 +8,25 @@ namespace TicTacToe
 {
     class SubsidiaryBoard
     {
-        public string[,] GameBoard { get; private set; }
+        public string[,] SubBoard { get; private set; }
         public bool UserMove { get; private set; } = false;
         public bool GameOver { get; private set; } = false;
 
         public SubsidiaryBoard (int dimension)
         {
-            GameBoard = new string[dimension, dimension];
+            SubBoard = new string[dimension, dimension];
             FillSubsidiaryBoard();
             //DisplayBoard();
         }
 
         private void FillSubsidiaryBoard() //metoda wstawia numerację pól np. A1
         {
-            for (int i = 0; i < GameBoard.GetLength(0); i++)
+            for (int i = 0; i < SubBoard.GetLength(0); i++)
             {
                 Rows letter = (Rows)i;
-                for (int j = 0; j < GameBoard.GetLength(1); j++)
+                for (int j = 0; j < SubBoard.GetLength(1); j++)
                 {
-                    GameBoard[i, j] = $" {letter}{j + 1}";
+                    SubBoard[i, j] = $" {letter}{j + 1}";
                 }
             }
         }
@@ -34,28 +34,28 @@ namespace TicTacToe
         public void DisplayBoard()
         {
             Console.Write("   ");
-            for (int x = 1; x <= GameBoard.GetLength(0); x++)
+            for (int x = 1; x <= SubBoard.GetLength(0); x++)
             {
                 Console.Write($" {x}  ");
             }
             Console.WriteLine();
-            for (int i = 0; i < GameBoard.GetLength(0); i++)
+            for (int i = 0; i < SubBoard.GetLength(0); i++)
             {
                 Rows letter = (Rows)i;
                 Console.Write($" {letter} ");
-                for (int j = 0; j < GameBoard.GetLength(1); j++)
+                for (int j = 0; j < SubBoard.GetLength(1); j++)
                 {
-                    Console.Write(GameBoard[i, j]);
-                    if (j < GameBoard.GetLength(1) - 1)
+                    Console.Write(SubBoard[i, j]);
+                    if (j < SubBoard.GetLength(1) - 1)
                     {
                         Console.Write("|");
                     }
                 }
-                if (i < GameBoard.GetLength(0) - 1)
+                if (i < SubBoard.GetLength(0) - 1)
                 {
                     Console.WriteLine();
                     Console.Write("   ");
-                    for (int j = 0; j < (GameBoard.GetLength(1) * 4) - 1; j++)
+                    for (int j = 0; j < (SubBoard.GetLength(1) * 4) - 1; j++)
                     {
                         Console.Write("-");
                     }
@@ -67,13 +67,13 @@ namespace TicTacToe
         public void CheckUserMove(string userMove, Board board, Player p)
         {
             bool contains = false;
-            for (int i = 0; i < GameBoard.GetLength(0); i++)
+            for (int i = 0; i < SubBoard.GetLength(0); i++)
             {
-                for (int j = 0; j < GameBoard.GetLength(1); j++)
+                for (int j = 0; j < SubBoard.GetLength(1); j++)
                 {
-                    if (userMove.ToUpper() == GameBoard[i, j])
+                    if (userMove.ToUpper() == SubBoard[i, j])
                     {
-                        GameBoard[i, j] = " # ";
+                        SubBoard[i, j] = " # ";
                         board.GameBoard[i, j] = p.Sign;
                         contains = true;
                         break;
@@ -98,17 +98,17 @@ namespace TicTacToe
         public void CheckGameOver()
         {
             int countMoves = 0;
-            for (int i = 0; i < GameBoard.GetLength(0); i++)
+            for (int i = 0; i < SubBoard.GetLength(0); i++)
             {
-                for (int j = 0; j < GameBoard.GetLength(1); j++)
+                for (int j = 0; j < SubBoard.GetLength(1); j++)
                 {
-                    if (GameBoard[i, j] == " # ")
+                    if (SubBoard[i, j] == " # ")
                     {
                         countMoves++;
                     }
                 }
             }
-            if (countMoves == GameBoard.GetLength(0) * GameBoard.GetLength(1))
+            if (countMoves == SubBoard.GetLength(0) * SubBoard.GetLength(1))
             {
                 GameOver = true;
             }
